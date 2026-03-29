@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\Session;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -50,6 +51,42 @@ class HandleInertiaRequests extends Middleware
                     return $user;
                 },
             ],
+            'locale' => function () use ($request) {
+                $locale = Session::get('locale', config('languages.default', 'en'));
+                
+                // Debug log
+                \Log::info('HandleInertiaRequests - locale from session: ' . $locale);
+                
+                return $locale;
+            },
+            'translations' => function () use ($request) {
+                $locale = Session::get('locale', config('languages.default', 'en'));
+                
+                // Load basic translations for initial render
+                $translations = [
+                    'common' => $this->loadTranslations($locale, 'common'),
+                    'navigation' => $this->loadTranslations($locale, 'navigation'),
+                ];
+                
+                // Debug log
+                \Log::info('HandleInertiaRequests - translations for ' . $locale . ': ' . json_encode(array_keys($translations)));
+                
+                return $translations;
+            },
         ];
+    }
+
+    /**
+     * Load translations from language files
+     */
+    private function loadTranslations($locale, $file)
+    {
+        $path = lang_path("{$locale}/{$file}.php");
+        
+        if (!file_exists($path)) {
+            return [];
+        }
+
+        return require $path;
     }
 }
