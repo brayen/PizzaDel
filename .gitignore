@@ -1,3 +1,5 @@
+.idea/
+
 /vendor/
 node_modules/
 npm-debug.log
@@ -28,3 +30,5 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+PROJECT_PLAN.md
