@@ -10,18 +10,11 @@ const localeStore = useLocaleStore();
 // Initialize locale store on component mount
 onMounted(() => {
     localeStore.initialize();
-    
-    // Debug: Check if translations are loaded
-    console.log('Welcome page - locale:', localeStore.currentLocale);
-    console.log('Welcome page - translations:', localeStore.translations);
-    console.log('Welcome page - test translation:', localeStore.t('navigation.auth.login'));
 });
 
-// Simple translation function without computed
+// Simple translation function
 const t = (key, params = {}) => {
-    const result = localeStore.t(key, params);
-    console.log('Translation result for', key, ':', result);
-    return result;
+    return localeStore.t(key, params);
 };
 </script>
 
