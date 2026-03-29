@@ -1,15 +1,19 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import Header from '@/Components/Header.vue';
 import Footer from '@/Components/Footer.vue';
-import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen bg-gray-100 flex flex-col">
+        <!-- Header -->
+        <Header />
+
+        <!-- Main Content -->
         <main class="flex-1">
             <slot />
         </main>
 
+        <!-- Footer -->
         <Footer />
     </div>
 </template>

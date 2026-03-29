@@ -8,7 +8,7 @@ export const useLocaleStore = defineStore('locale', {
         translations: {},
         supportedLocales: [
             { code: 'en', name: 'English', flag: '🇺🇸' },
-            { code: 'uk', name: 'Українська', flag: '🇺🇦' },
+            { code: 'ua', name: 'Українська', flag: '🇺🇦' },
             { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
         ],
     }),
@@ -55,6 +55,9 @@ export const useLocaleStore = defineStore('locale', {
                 
                 // Update HTML lang attribute
                 document.documentElement.lang = locale
+                
+                // Trigger custom event for components to reload data
+                window.dispatchEvent(new CustomEvent('locale-changed', { detail: { locale } }));
                 
                 return true
             } catch (error) {

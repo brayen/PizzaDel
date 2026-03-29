@@ -10,10 +10,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use App\Http\Controllers\ProductController;
 
 // Language routes
 Route::get('/translations/{locale}', [LocaleController::class, 'translations']);
 Route::post('/locale', [LocaleController::class, 'switch']);
+
+// Products routes
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/api/products', [ProductController::class, 'api'])->name('products.api');
+Route::get('/api/search', [ProductController::class, 'search'])->name('products.search');
 
 // Language switch routes (fallback)
 Route::get('/locale/{locale}', function ($locale) {
