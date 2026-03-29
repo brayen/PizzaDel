@@ -25,6 +25,12 @@ import { Head, Link } from '@inertiajs/vue3';
                         >
                             Регистрация
                         </Link>
+                        <Link
+                            href="/staff/login"
+                            class="text-gray-600 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium border-l border-gray-300"
+                        >
+                            Staff
+                        </Link>
                     </div>
                 </div>
             </nav>

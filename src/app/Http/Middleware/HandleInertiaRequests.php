@@ -32,7 +32,23 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => function () use ($request) {
+                    $user = $request->user();
+                    
+                    if ($user) {
+                        // Load relationships for clients
+                        if ($user instanceof \App\Models\Client) {
+                            $user->load(['preferences', 'addresses']);
+                        }
+                        
+                        // Load roles for staff
+                        if ($user instanceof \App\Models\Staff) {
+                            $user->load('roles');
+                        }
+                    }
+                    
+                    return $user;
+                },
             ],
         ];
     }
