@@ -8,7 +8,7 @@ export const useLocaleStore = defineStore('locale', {
         translations: {},
         supportedLocales: [
             { code: 'en', name: 'English', flag: '🇺🇸' },
-            { code: 'uk', name: 'Українська', flag: '🇺🇦' },
+            { code: 'ua', name: 'Українська', flag: '🇺🇦' },
             { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
         ],
     }),
@@ -56,6 +56,9 @@ export const useLocaleStore = defineStore('locale', {
                 // Update HTML lang attribute
                 document.documentElement.lang = locale
                 
+                // Trigger custom event for components to reload data
+                window.dispatchEvent(new CustomEvent('locale-changed', { detail: { locale } }));
+                
                 return true
             } catch (error) {
                 console.error('Failed to switch locale:', error)
@@ -65,19 +68,13 @@ export const useLocaleStore = defineStore('locale', {
 
         async loadTranslations() {
             try {
-                console.log('Loading translations for locale:', this.currentLocale);
                 const response = await fetch(`/translations/${this.currentLocale}`);
-                console.log('Response status:', response.status);
-                console.log('Response ok:', response.ok);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const translations = await response.json();
-                console.log('Loaded translations:', translations);
-                
-                this.translations = translations;
+                this.translations = await response.json();
             } catch (error) {
                 console.error('Failed to load translations:', error);
                 // Fallback to empty object

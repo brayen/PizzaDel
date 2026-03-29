@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'menu' => 'Menu',
     'main_nav' => [
         'home' => 'Home',
         'menu' => 'Menu',

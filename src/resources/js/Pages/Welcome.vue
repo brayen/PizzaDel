@@ -1,118 +1,68 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
-import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
-import { onMounted, computed, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useLocaleStore } from '@/Stores/locale';
 
 const localeStore = useLocaleStore();
 
-// Initialize locale store on component mount
+// Initialize locale store
 onMounted(() => {
     localeStore.initialize();
-    
-    // Debug: Check if translations are loaded
-    console.log('Welcome page - locale:', localeStore.currentLocale);
-    console.log('Welcome page - translations:', localeStore.translations);
-    console.log('Welcome page - test translation:', localeStore.t('navigation.auth.login'));
 });
 
-// Simple translation function without computed
-const t = (key, params = {}) => {
-    const result = localeStore.t(key, params);
-    console.log('Translation result for', key, ':', result);
-    return result;
-};
+// Get translations
+const t = (key, params = {}) => localeStore.t(key, params);
 </script>
 
 <template>
     <AppLayout>
         <Head title="Добро пожаловать в PizzaDel" />
 
-        <div class="min-h-screen bg-gray-100">
-            <header class="bg-white shadow">
-                <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex items-center">
-                            <h1 class="text-2xl font-bold text-emerald-600">🍕 PizzaDel</h1>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <!-- Language Switcher -->
-                            <LanguageSwitcher />
-
-                            <template v-if="$page.props.auth.user">
-                                <Link
-                                    href="/dashboard"
-                                    class="text-emerald-600 hover:text-emerald-700 px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {{ t('navigation.auth.my_cabinet') }}
-                                </Link>
-                                <Link
-                                    href="/logout"
-                                    method="post"
-                                    as="button"
-                                    class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {{ t('navigation.auth.logout') }}
-                                </Link>
-                            </template>
-                            <template v-else>
-                                <Link
-                                    href="/login"
-                                    class="text-gray-700 hover:text-emerald-600 px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {{ t('navigation.auth.login') }}
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                                >
-                                    {{ t('navigation.auth.register') }}
-                                </Link>
-                            </template>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-
-            <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                <div class="px-4 py-6 sm:px-0">
-                    <div class="text-center">
-                        <h2 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-                            {{ t('common.pizza_delivery') }}
-                        </h2>
-                        <p class="mt-4 text-xl text-gray-600">
-                            {{ t('common.order_online') }}
-                        </p>
-                        <div class="mt-8">
-                            <Link
-                                href="/menu"
-                                class="bg-emerald-600 hover:bg-emerald-700 text-white text-lg font-semibold px-8 py-3 rounded-lg"
-                            >
-                                {{ t('common.go_to_menu') }}
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="text-center">
-                            <div class="text-4xl mb-4">🚀</div>
-                            <h3 class="text-lg font-semibold">Быстрая доставка</h3>
-                            <p class="mt-2 text-gray-600">Доставляем за 30 минут или бесплатно</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-4xl mb-4">👨‍🍳</div>
-                            <h3 class="text-lg font-semibold">Лучшие повара</h3>
-                            <p class="mt-2 text-gray-600">Итальянские рецепты и свежие ингредиенты</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="text-4xl mb-4">💳</div>
-                            <h3 class="text-lg font-semibold">Удобная оплата</h3>
-                            <p class="mt-2 text-gray-600">Наличные, карты или онлайн оплата</p>
-                        </div>
-                    </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <!-- Hero Section -->
+            <div class="text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                    {{ t('common.welcome') }}
+                </h1>
+                <p class="text-xl text-gray-600 mb-8">
+                    {{ t('common.pizza_delivery') }}
+                </p>
+                
+                <div class="space-x-4">
+                    <Link
+                        href="/products"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-lg text-lg font-medium"
+                    >
+                        {{ t('common.order_online') }}
+                    </Link>
+                    <Link
+                        href="/register"
+                        class="border border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-8 py-3 rounded-lg text-lg font-medium"
+                    >
+                        {{ t('navigation.auth.register') }}
+                    </Link>
                 </div>
-            </main>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-lg font-semibold">{{ t('common.fast_delivery') }}</h3>
+                    <p class="mt-2 text-gray-600">{{ t('common.fast_delivery_desc') }}</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl mb-4">👨‍🍳</div>
+                    <h3 class="text-lg font-semibold">{{ t('common.best_chefs') }}</h3>
+                    <p class="mt-2 text-gray-600">{{ t('common.best_chefs_desc') }}</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl mb-4">💳</div>
+                    <h3 class="text-lg font-semibold">{{ t('common.easy_payment') }}</h3>
+                    <p class="mt-2 text-gray-600">{{ t('common.easy_payment_desc') }}</p>
+                </div>
+            </div>
         </div>
     </AppLayout>
 </template>
