@@ -4,11 +4,25 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\StaffLoginController;
+use App\Http\Controllers\LocaleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+
+// Language routes
+Route::get('/translations/{locale}', [LocaleController::class, 'translations']);
+Route::post('/locale', [LocaleController::class, 'switch']);
+
+// Language switch routes (fallback)
+Route::get('/locale/{locale}', function ($locale) {
+    if (in_array($locale, config('languages.supported', ['en']))) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+    }
+    return redirect()->back();
+})->name('locale.switch');
 
 // Главная страница
 Route::get('/', function () {

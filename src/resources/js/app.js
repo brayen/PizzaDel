@@ -2,6 +2,7 @@ import './bootstrap';
 import '../css/app.css';
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
+import { createPinia } from 'pinia';
 import { Link } from '@inertiajs/vue3';
 
 createInertiaApp({
@@ -11,8 +12,11 @@ createInertiaApp({
         return pages[`./Pages/${name}.vue`];
     },
     setup({ el, App, props, plugin }) {
+        const pinia = createPinia();
+        
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(pinia)
             .component('Link', Link)
             .mount(el);
     },
