@@ -52,26 +52,15 @@ class HandleInertiaRequests extends Middleware
                 },
             ],
             'locale' => function () use ($request) {
-                $locale = Session::get('locale', config('languages.default', 'en'));
-                
-                // Debug log
-                \Log::info('HandleInertiaRequests - locale from session: ' . $locale);
-                
-                return $locale;
+                return Session::get('locale', config('languages.default', 'en'));
             },
             'translations' => function () use ($request) {
                 $locale = Session::get('locale', config('languages.default', 'en'));
                 
-                // Load basic translations for initial render
-                $translations = [
+                return [
                     'common' => $this->loadTranslations($locale, 'common'),
                     'navigation' => $this->loadTranslations($locale, 'navigation'),
                 ];
-                
-                // Debug log
-                \Log::info('HandleInertiaRequests - translations for ' . $locale . ': ' . json_encode(array_keys($translations)));
-                
-                return $translations;
             },
         ];
     }

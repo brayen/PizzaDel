@@ -77,7 +77,6 @@ export const useLocaleStore = defineStore('locale', {
                 this.translations = await response.json();
             } catch (error) {
                 console.error('Failed to load translations:', error);
-                // Fallback to empty object
                 this.translations = {}
             }
         },
@@ -95,13 +94,6 @@ export const useLocaleStore = defineStore('locale', {
             
             // Update HTML lang attribute
             document.documentElement.lang = this.currentLocale
-            
-            console.log('Locale initialized:', {
-                locale: this.currentLocale,
-                fromLocalStorage: !!savedLocale,
-                fromProps: props.locale,
-                translations: this.translations
-            })
         }
     }
 })

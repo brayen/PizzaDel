@@ -13,6 +13,7 @@ onMounted(() => {
 
 // Get translations
 const t = (key, params = {}) => localeStore.t(key, params);
+
 </script>
 
 <template>
