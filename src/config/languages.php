@@ -3,7 +3,7 @@
 return [
     'supported' => [
         'en' => 'English',
-        'uk' => 'Українська',
+        'ua' => 'Українська',
         'de' => 'Deutsch',
     ],
     

@@ -1,5 +1,11 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import { useLocaleStore } from '@/Stores/locale';
+
+const localeStore = useLocaleStore();
+
+// Get translations - use store's t function directly
+const t = (key, params = {}) => localeStore.t(key, params);
 </script>
 
 <template>
@@ -12,115 +18,115 @@ import { Link } from '@inertiajs/vue3';
                         <h3 class="text-xl font-bold text-emerald-400">🍕 PizzaDel</h3>
                     </div>
                     <p class="text-gray-400 text-sm">
-                        © {{ new Date().getFullYear() }} PizzaDel. Все права защищены.
+                        {{ t('common.footer.copyright', { year: new Date().getFullYear() }) }}
                     </p>
                     <p class="text-gray-400 text-sm mt-1">
-                        Доставка вкуснейшей пиццы в Италии
+                        {{ t('common.footer.delivery_desc') }}
                     </p>
                 </div>
 
                 <!-- Правая сторона - Навигация -->
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
                     <div>
-                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">О нас</h4>
+                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ t('common.footer.about') }}</h4>
                         <ul class="space-y-2">
                             <li>
                                 <Link href="/about" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    О компании
+                                    {{ t('common.footer.about_company') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/contacts" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Контакты
+                                    {{ t('common.footer.contacts') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/vacancies" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Вакансии
+                                    {{ t('common.footer.vacancies') }}
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">Новости</h4>
+                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ t('common.footer.news') }}</h4>
                         <ul class="space-y-2">
                             <li>
                                 <Link href="/news" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Последние новости
+                                    {{ t('common.footer.latest_news') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/events" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Мероприятия
+                                    {{ t('common.footer.events') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/press" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Пресс-центр
+                                    {{ t('common.footer.press_center') }}
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">Акции</h4>
+                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ t('common.footer.promotions') }}</h4>
                         <ul class="space-y-2">
                             <li>
                                 <Link href="/promotions" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Текущие акции
+                                    {{ t('common.footer.current_promotions') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/discounts" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Скидки
+                                    {{ t('common.footer.discounts') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/loyalty" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Программа лояльности
+                                    {{ t('common.footer.loyalty_program') }}
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">Блог</h4>
+                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ t('common.footer.blog') }}</h4>
                         <ul class="space-y-2">
                             <li>
                                 <Link href="/blog" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Все статьи
+                                    {{ t('common.footer.all_articles') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/recipes" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Рецепты
+                                    {{ t('common.footer.recipes') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/stories" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Истории
+                                    {{ t('common.footer.stories') }}
                                 </Link>
                             </li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">Сотрудникам</h4>
+                        <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ t('common.footer.staff') }}</h4>
                         <ul class="space-y-2">
                             <li>
                                 <Link href="/staff/login" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Вход для сотрудников
+                                    {{ t('common.footer.staff_login') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/staff/schedule" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    График работы
+                                    {{ t('common.footer.work_schedule') }}
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/staff/documents" class="text-gray-400 hover:text-emerald-400 text-sm transition">
-                                    Документы
+                                    {{ t('common.footer.documents') }}
                                 </Link>
                             </li>
                         </ul>
@@ -138,7 +144,7 @@ import { Link } from '@inertiajs/vue3';
                         <span class="mx-2">•</span>
                         <span>info@pizzadel.com</span>
                     </div>
-                    
+
                     <div class="flex space-x-6">
                         <a href="#" class="text-gray-400 hover:text-emerald-400 transition">
                             <span class="sr-only">Facebook</span>

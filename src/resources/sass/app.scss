@@ -1,0 +1,8 @@
+@use "flag-icons/sass/flag-icons" with (
+  $flag-icons-path: "flag-icons/flags",
+  $flag-icons-included-countries: ("ua", "de", "gb")
+);
+
+body {
+    font-family: sans-serif;
+}

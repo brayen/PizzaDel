@@ -23,24 +23,30 @@ const isDisabled = computed(() => form.processing);
 <template>
     <Head title="Register" />
 
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-6 sm:space-y-8">
             <div>
-                <Link href="/" class="flex justify-center">
-                    <h1 class="text-3xl font-bold text-emerald-600">🍕 PizzaDel</h1>
+                <Link href="/" class="flex justify-center items-center gap-2 text-emerald-600 hover:text-emerald-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span class="text-xl sm:text-2xl lg:text-3xl font-bold">🍕 PizzaDel</span>
                 </Link>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Create your account
-                </h2>
-                <p class="mt-2 text-center text-sm text-gray-600">
-                    Or
-                    <Link href="/login" class="font-medium text-emerald-600 hover:text-emerald-500">
-                        sign in to your existing account
-                    </Link>
-                </p>
             </div>
             
-            <form class="mt-8 space-y-6" @submit.prevent="submit">
+            <!-- Registration Form -->
+            <div class="bg-white shadow sm:rounded-lg px-4 py-6 sm:px-10 sm:py-8">
+                <h2 class="text-center text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900">
+                    Create your account
+                </h2>
+                
+                <p class="mt-2 text-center text-xs sm:text-sm text-gray-600">
+                    — <Link href="/login" class="font-medium text-emerald-600 hover:text-emerald-500">
+                        sign in to your existing account
+                    </Link> —
+                </p>
+
+                <form class="mt-6 space-y-6" @submit.prevent="submit">
                 <div class="space-y-4">
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
@@ -137,6 +143,7 @@ const isDisabled = computed(() => form.processing);
                     </button>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </template>
