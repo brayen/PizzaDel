@@ -9,7 +9,7 @@ import Footer from '@/Components/Footer.vue';
         <Header />
 
         <!-- Main Content -->
-        <main class="flex-1">
+        <main class="flex-1 overflow-x-hidden">
             <slot />
         </main>
 

@@ -99,18 +99,18 @@ onMounted(() => {
         <!-- Header -->
         <div class="bg-white shadow">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <div class="flex justify-between items-center">
-                    <h1 class="text-3xl font-bold text-gray-900">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
                         {{ t('common.products') }}
                     </h1>
                     
                     <!-- Search -->
-                    <div class="relative">
+                    <div class="relative w-full sm:w-auto">
                         <input
                             v-model="searchQuery"
                             type="text"
                             :placeholder="t('common.search_products')"
-                            class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            class="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         />
                         
                         <!-- Search Results Dropdown -->
@@ -136,27 +136,27 @@ onMounted(() => {
         </div>
 
         <!-- Products Grid -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-x-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 min-w-0">
                 <div
                     v-for="product in products"
                     :key="product.id"
-                    class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                    class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex-shrink-0"
                 >
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">
+                    <div class="p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                             {{ product.name }}
                         </h3>
-                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                        <p class="text-gray-600 text-sm sm:text-sm mb-3 sm:mb-4 line-clamp-2 sm:line-clamp-3">
                             {{ product.description }}
                         </p>
                         <div class="flex justify-between items-center">
-                            <span class="text-xl font-bold text-emerald-600">
+                            <span class="text-lg sm:text-xl font-bold text-emerald-600">
                                 {{ product.price }}
                             </span>
                             <a
                                 :href="`/product/${product.slug}`"
-                                class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                                class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors"
                             >
                                 {{ t('common.view_details') }}
                             </a>

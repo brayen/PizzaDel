@@ -23,24 +23,25 @@ const isDisabled = computed(() => form.processing);
 <template>
     <Head title="Login" />
 
-    <div class="min-h-screen flex items-center justify-center bg-gray-100">
-        <div class="max-w-md w-full space-y-8">
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-6 sm:space-y-8">
             <div>
-                <Link href="/" class="flex justify-center">
-                    <h1 class="text-3xl font-bold text-emerald-600">🍕 PizzaDel</h1>
+                <Link href="/" class="flex justify-center items-center gap-2 text-emerald-600 hover:text-emerald-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span class="text-xl sm:text-2xl lg:text-3xl font-bold">🍕 PizzaDel</span>
                 </Link>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                <h2 class="mt-4 sm:mt-6 text-center text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900">
                     Sign in to your account
                 </h2>
-                <p class="mt-2 text-center text-sm text-gray-600">
-                    Or
-                    <Link 
-                        v-if="canRegister"
+                <p class="mt-2 text-center text-xs sm:text-sm text-gray-600">
+                    — <Link 
                         href="/register" 
                         class="font-medium text-emerald-600 hover:text-emerald-500"
                     >
                         create a new account
-                    </Link>
+                    </Link> —
                 </p>
             </div>
             

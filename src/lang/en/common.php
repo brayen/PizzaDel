@@ -118,6 +118,8 @@ return [
     'menu' => 'Menu',
     'home' => 'Home',
     'back_to_home' => 'Back to Home',
+    'about' => 'About',
+    'contact' => 'Contact',
     'page_not_found' => 'Page not found',
     'access_denied' => 'Access denied',
     'server_error' => 'Server error',

@@ -41,7 +41,7 @@ onUnmounted(() => {
             @click="toggleDropdown"
             class="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors"
         >
-            <span class="text-xl">{{ currentLanguage?.flag || '🌐' }}</span>
+            <span :class="currentLanguage?.flag || 'fis fi-gb'" class="text-xl"></span>
             <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': showDropdown }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
@@ -69,7 +69,7 @@ onUnmounted(() => {
                                 lang.code === localeStore.currentLocale ? 'bg-emerald-50 text-emerald-700' : 'text-gray-700'
                             ]"
                         >
-                            <span class="text-lg">{{ lang.flag }}</span>
+                            <span :class="lang.flag" class="text-lg"></span>
                             <span>{{ lang.name }}</span>
                             <svg
                                 v-if="lang.code === localeStore.currentLocale"

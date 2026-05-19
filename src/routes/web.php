@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DictionaryController;
 
 // Language routes
 Route::get('/translations/{locale}', [LocaleController::class, 'translations']);
@@ -22,6 +23,16 @@ Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product
 Route::get('/api/products', [ProductController::class, 'api'])->name('products.api');
 Route::get('/api/search', [ProductController::class, 'search'])->name('products.search');
 
+// Dictionary API routes
+Route::prefix('api')->name('api.')->group(function () {
+    Route::get('/dictionaries', [DictionaryController::class, 'dictionaries'])->name('dictionaries');
+    Route::get('/dictionaries/{dictionary}', [DictionaryController::class, 'index'])->name('dictionaries.index');
+    Route::post('/dictionaries/{dictionary}', [DictionaryController::class, 'store'])->name('dictionaries.store');
+    Route::get('/dictionaries/{dictionary}/{id}', [DictionaryController::class, 'show'])->name('dictionaries.show');
+    Route::put('/dictionaries/{dictionary}/{id}', [DictionaryController::class, 'update'])->name('dictionaries.update');
+    Route::delete('/dictionaries/{dictionary}/{id}', [DictionaryController::class, 'destroy'])->name('dictionaries.destroy');
+});
+
 // Language switch routes (fallback)
 Route::get('/locale/{locale}', function ($locale) {
     if (in_array($locale, config('languages.supported', ['en']))) {
@@ -31,7 +42,7 @@ Route::get('/locale/{locale}', function ($locale) {
     return redirect()->back();
 })->name('locale.switch');
 
-// Главная страница
+// Main Page
 Route::get('/', function () {
     return Inertia::render('Welcome');
 });
@@ -48,7 +59,7 @@ Route::post('/login', function (Request $request) {
 
     if (Auth::guard('web')->attempt($credentials)) {
         $request->session()->regenerate();
-        
+
         return redirect()->intended('/dashboard');
     }
 
@@ -60,7 +71,7 @@ Route::post('/logout', function (Request $request) {
     Auth::guard('web')->logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    
+
     return redirect('/');
 })->name('logout');
 
@@ -123,11 +134,11 @@ Route::post('/register', function (Request $request) {
 
     } catch (\Exception $e) {
         DB::rollBack();
-        
+
         // Log the actual error for debugging
         \Log::error('Registration failed: ' . $e->getMessage());
         \Log::error('Stack trace: ' . $e->getTraceAsString());
-        
+
         return back()->withErrors([
             'email' => 'Registration failed: ' . $e->getMessage(),
         ])->withInput();
@@ -139,34 +150,33 @@ Route::prefix('staff')->name('staff.')->group(function () {
     Route::get('/login', [StaffLoginController::class, 'show'])->name('login');
     Route::post('/login', [StaffLoginController::class, 'store']);
     Route::post('/logout', [StaffLoginController::class, 'destroy'])->name('logout');
-    
+
     // Staff dashboard (protected)
     Route::get('/dashboard', function () {
         return Inertia::render('Staff/Dashboard');
     })->middleware(['auth:staff'])->name('dashboard');
+
+    Route::get('/dictionaries/{dictionary?}', function ($dictionary = 'ingredients') {
+        return Inertia::render('Staff/Dictionaries/Index', ['dictionary' => $dictionary]);
+    })->middleware(['auth:staff'])->name('dictionaries');
 });
 
-// Меню пиццы
+// Pizza menu
 Route::get('/menu', function () {
     return Inertia::render('Menu');
 })->name('menu');
 
-// Корзина
+// Basket
 Route::get('/cart', function () {
     return Inertia::render('Cart');
 })->name('cart');
 
-// Оформление заказа
+// Order
 Route::get('/checkout', function () {
     return Inertia::render('Checkout');
 })->name('checkout');
 
-// Панель управления (для клиентов)
+// Client CP
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth'])->name('dashboard');
-
-// Админ панель
-Route::get('/admin', function () {
-    return Inertia::render('Admin/Dashboard');
-})->middleware(['auth', 'admin'])->name('admin.dashboard');
