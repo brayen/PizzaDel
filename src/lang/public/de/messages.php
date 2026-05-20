@@ -22,6 +22,7 @@ return [
     'staff_portal' => 'Personalportal',
     
     // Dashboard
+    'customer_dashboard' => 'Kunden-Dashboard',
     'welcome_back' => 'Willkommen zurück',
     'manage_orders_preferences' => 'Bestellungen und Einstellungen verwalten',
     'loyalty_status' => 'Ihr Treuestatus',
@@ -31,11 +32,11 @@ return [
     'order_pizza' => 'Pizza bestellen',
     'browse_menu' => 'Speisekarte durchsuchen',
     'my_orders' => 'Meine Bestellungen',
-    'view_history' => 'Bestellverlauf einsehen',
+    'view_order_history' => 'Bestellverlauf einsehen',
     'my_profile' => 'Mein Profil',
     'manage_account' => 'Konto verwalten',
     'recent_orders' => 'Aktuelle Bestellungen',
-    'no_orders' => 'Noch keine Bestellungen',
+    'no_orders_yet' => 'Noch keine Bestellungen',
     'place_first_order' => 'Erste Bestellung aufgeben',
     
     // Footer
@@ -56,7 +57,6 @@ return [
     'recipes' => 'Rezepte',
     'stories' => 'Geschichten',
     'staff' => 'Personal',
-    'staff_login' => 'Personal-Anmeldung',
     'work_schedule' => 'Arbeitszeitplan',
     'documents' => 'Dokumente',
     'copyright' => '© :year PizzaDel. Alle Rechte vorbehalten.',
@@ -66,6 +66,12 @@ return [
     'email' => 'info@pizzadel.com',
     
     // Auth
+    'staff_login' => 'Personal-Anmeldung',
+    'customer_login' => 'Kundenanmeldung',
+    'sign_in_to_staff_account' => 'Melden Sie sich in Ihrem Personal-Konto an',
+    'sign_in_to_account' => 'Melden Sie sich in Ihrem Konto an',
+    'create_new_account' => 'neues Konto erstellen',
+    'sign_in_existing_account' => 'in Ihrem bestehenden Konto anmelden',
     'email_address' => 'E-Mail-Adresse',
     'password' => 'Passwort',
     'confirm_password' => 'Passwort bestätigen',
@@ -74,8 +80,12 @@ return [
     'sign_in' => 'Anmelden',
     'create_account' => 'Konto erstellen',
     'full_name' => 'Vollständiger Name',
-    'phone_number' => 'Telefonnummer',
-    'delivery_address' => 'Lieferadresse',
+    'name_placeholder' => 'Max Mustermann',
+    'email_placeholder' => 'max@example.com',
+    'phone_optional' => 'Telefon (Optional)',
+    'phone_placeholder' => '+49 123 456789',
+    'delivery_address_optional' => 'Lieferadresse (Optional)',
+    'address_placeholder' => 'Musterstraße 123, Stadt, Land',
     'already_have_account' => 'Haben Sie bereits ein Konto?',
     'dont_have_account' => 'Haben Sie kein Konto?',
     

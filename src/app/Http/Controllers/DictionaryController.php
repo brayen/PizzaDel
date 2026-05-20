@@ -15,7 +15,7 @@ class DictionaryController extends Controller
                 'name' => ['type' => 'text', 'required' => true, 'label' => 'Название'],
                 'slug' => ['type' => 'text', 'required' => false, 'label' => 'Slug'],
                 'description' => ['type' => 'textarea', 'required' => false, 'label' => 'Описание'],
-                'price_per_gram' => ['type' => 'number', 'required' => false, 'label' => 'Цена за грамм (₽)'],
+                'price_per_gram' => ['type' => 'number', 'required' => false, 'label' => 'Цена за грамм ($)'],
                 'calories_per_gram' => ['type' => 'number', 'required' => false, 'label' => 'Калории за грамм'],
                 'is_active' => ['type' => 'boolean', 'required' => false, 'label' => 'Активен'],
             ],
@@ -40,9 +40,9 @@ class DictionaryController extends Controller
     {
         $config = $this->getDictionaryConfig($dictionary);
         $model = $config['model'];
-        
+
         $items = $model::orderBy('name')->get();
-        
+
         return response()->json([
             'items' => $items,
             'fields' => $config['fields'],
@@ -56,23 +56,23 @@ class DictionaryController extends Controller
     {
         $config = $this->getDictionaryConfig($dictionary);
         $model = $config['model'];
-        
+
         $rules = [];
         foreach ($config['fields'] as $field => $fieldConfig) {
             if ($fieldConfig['required']) {
                 $rules[$field] = 'required';
             }
         }
-        
+
         $validated = $request->validate($rules);
-        
+
         // Auto-generate slug if not provided and field exists
         if (isset($config['fields']['slug']) && empty($validated['slug'] ?? null) && isset($validated['name'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
-        
+
         $item = $model::create($validated);
-        
+
         return response()->json([
             'item' => $item,
         ], 201);
@@ -85,9 +85,9 @@ class DictionaryController extends Controller
     {
         $config = $this->getDictionaryConfig($dictionary);
         $model = $config['model'];
-        
+
         $item = $model::findOrFail($id);
-        
+
         return response()->json([
             'item' => $item,
         ]);
@@ -100,25 +100,25 @@ class DictionaryController extends Controller
     {
         $config = $this->getDictionaryConfig($dictionary);
         $model = $config['model'];
-        
+
         $item = $model::findOrFail($id);
-        
+
         $rules = [];
         foreach ($config['fields'] as $field => $fieldConfig) {
             if ($fieldConfig['required']) {
                 $rules[$field] = 'required';
             }
         }
-        
+
         $validated = $request->validate($rules);
-        
+
         // Auto-generate slug if not provided and field exists
         if (isset($config['fields']['slug']) && empty($validated['slug'] ?? null) && isset($validated['name'])) {
             $validated['slug'] = Str::slug($validated['name']);
         }
-        
+
         $item->update($validated);
-        
+
         return response()->json([
             'item' => $item->fresh(),
         ]);
@@ -131,10 +131,10 @@ class DictionaryController extends Controller
     {
         $config = $this->getDictionaryConfig($dictionary);
         $model = $config['model'];
-        
+
         $item = $model::findOrFail($id);
         $item->delete();
-        
+
         return response()->json(null, 204);
     }
 

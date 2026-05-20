@@ -2,13 +2,24 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import StaffSidebar from '@/Components/Staff/Sidebar.vue';
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
+import { useLocaleStore } from '@/Stores/locale';
+
+const localeStore = useLocaleStore();
 
 const props = defineProps({
     dictionary: {
         type: String,
         default: 'ingredients',
     },
+    auth: {
+        type: Object,
+        required: true
+    }
 });
+
+const userRole = computed(() => props.auth.user.getRoleNames?.()?.[0] || 'staff');
+const userName = computed(() => props.auth.user.name || 'Staff Member');
 
 const dictionaries = ref([]);
 const items = ref([]);
@@ -19,12 +30,14 @@ const editingItem = ref(null);
 const formData = ref({});
 
 const dictionaryNames = {
-    ingredients: 'Ингредиенты',
+    ingredients: 'ingredients',
 };
 
 const currentDictionaryName = computed(() => {
-    return dictionaryNames[props.dictionary] || props.dictionary;
+    return t(`dictionaries.${dictionaryNames[props.dictionary]}`) || props.dictionary;
 });
+
+const t = (key, params = {}) => localeStore.t(key, params);
 
 const loadDictionaries = async () => {
     try {
@@ -71,12 +84,12 @@ const closeModal = () => {
 
 const saveItem = async () => {
     try {
-        const url = editingItem.value 
+        const url = editingItem.value
             ? `/api/dictionaries/${props.dictionary}/${editingItem.value.id}`
             : `/api/dictionaries/${props.dictionary}`;
-        
+
         const method = editingItem.value ? 'PUT' : 'POST';
-        
+
         const response = await fetch(url, {
             method: method,
             headers: {
@@ -84,7 +97,7 @@ const saveItem = async () => {
             },
             body: JSON.stringify(formData.value),
         });
-        
+
         if (response.ok) {
             await loadItems();
             closeModal();
@@ -97,15 +110,15 @@ const saveItem = async () => {
 };
 
 const deleteItem = async (item) => {
-    if (!confirm(`Вы уверены, что хотите удалить "${item.name}"?`)) {
+    if (!confirm(t('dictionaries.delete_confirm', { name: item.name }))) {
         return;
     }
-    
+
     try {
         const response = await fetch(`/api/dictionaries/${props.dictionary}/${item.id}`, {
             method: 'DELETE',
         });
-        
+
         if (response.ok) {
             await loadItems();
         } else {
@@ -122,26 +135,26 @@ const switchDictionary = (dict) => {
 
 const renderField = (fieldName, fieldValue) => {
     if (fieldValue === null || fieldValue === undefined) return '-';
-    
+
     const fieldConfig = fields.value[fieldName];
     if (!fieldConfig) return fieldValue;
-    
+
     if (fieldConfig.type === 'boolean') {
-        return fieldValue ? 'Да' : 'Нет';
+        return fieldValue ? t('common.yes') : t('common.no');
     }
-    
+
     if (fieldConfig.type === 'number' && fieldName.includes('price')) {
-        return `${fieldValue} ₽`;
+        return `${fieldValue} ${t('common.currency')}`;
     }
-    
+
     if (fieldName === 'slug') {
         return fieldValue;
     }
-    
+
     if (fieldName === 'description') {
         return fieldValue ? fieldValue.substring(0, 50) + (fieldValue.length > 50 ? '...' : '') : '-';
     }
-    
+
     return fieldValue;
 };
 
@@ -151,38 +164,38 @@ const getDisplayFields = () => {
 };
 
 onMounted(() => {
+    localeStore.setContext('staff');
     loadDictionaries();
     loadItems();
 });
 </script>
 
 <template>
-    <Head :title="`${currentDictionaryName} - Словари`" />
-    
+    <Head :title="`${currentDictionaryName} - ${t('dictionaries.title')}`" />
+
     <div class="flex min-h-screen bg-gray-100">
         <StaffSidebar />
-        
+
         <div class="flex-1">
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex items-center">
-                            <h1 class="text-2xl font-bold text-red-600">📚 Словари</h1>
+                            <h1 class="text-2xl font-bold text-red-600">📚 {{ t('dictionaries.title') }}</h1>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <select
-                                :value="dictionary"
-                                @change="switchDictionary($event.target.value)"
-                                class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                            <LanguageSwitcher />
+                            <span class="text-sm text-gray-700">
+                                {{ userName }} ({{ userRole }})
+                            </span>
+                            <Link
+                                href="/staff/logout"
+                                method="post"
+                                as="button"
+                                class="text-gray-700 hover:text-red-600 px-3 py-2 rounded-md text-sm font-medium"
                             >
-                                <option value="ingredients">Ингредиенты</option>
-                            </select>
-                            <button
-                                @click="openModal()"
-                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium"
-                            >
-                                + Добавить
-                            </button>
+                                {{ t('common.logout') }}
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -190,8 +203,16 @@ onMounted(() => {
 
             <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div class="px-4 py-6 sm:px-0">
-                    <h2 class="text-xl font-semibold mb-4">{{ currentDictionaryName }}</h2>
-                    
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold">{{ currentDictionaryName }}</h2>
+                        <button
+                            @click="openModal()"
+                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium"
+                        >
+                            + {{ t('dictionaries.add') }}
+                        </button>
+                    </div>
+
                     <div v-if="loading" class="text-center py-8">
                         <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
                     </div>
@@ -205,10 +226,10 @@ onMounted(() => {
                                         :key="field"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        {{ fields[field].label }}
+                                        {{ t('dictionaries.fields.' + field) }}
                                     </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Действия
+                                        {{ t('common.edit') }}/{{ t('common.delete') }}
                                     </th>
                                 </tr>
                             </thead>
@@ -226,19 +247,19 @@ onMounted(() => {
                                             @click="openModal(item)"
                                             class="text-indigo-600 hover:text-indigo-900 mr-4"
                                         >
-                                            Редактировать
+                                            {{ t('dictionaries.edit') }}
                                         </button>
                                         <button
                                             @click="deleteItem(item)"
                                             class="text-red-600 hover:text-red-900"
                                         >
-                                            Удалить
+                                            {{ t('dictionaries.delete') }}
                                         </button>
                                     </td>
                                 </tr>
                                 <tr v-if="items.length === 0">
                                     <td :colspan="getDisplayFields().length + 1" class="px-6 py-4 text-center text-gray-500">
-                                        Записи не найдены
+                                        {{ t('dictionaries.no_records') }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -252,9 +273,9 @@ onMounted(() => {
         <div v-if="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
             <div class="relative p-5 border w-full max-w-lg shadow-lg rounded-md bg-white mx-4">
                 <h3 class="text-lg font-bold text-gray-900 mb-4">
-                    {{ editingItem ? 'Редактировать' : 'Добавить' }}
+                    {{ editingItem ? t('dictionaries.edit_item') : t('dictionaries.add_item') }}
                 </h3>
-                
+
                 <form @submit.prevent="saveItem">
                     <div
                         v-for="(fieldConfig, fieldName) in fields"
@@ -262,10 +283,10 @@ onMounted(() => {
                         class="mb-4"
                     >
                         <label class="block text-gray-700 text-sm font-bold mb-2">
-                            {{ fieldConfig.label }}
+                            {{ t('dictionaries.fields.' + fieldName) }}
                             <span v-if="fieldConfig.required" class="text-red-500">*</span>
                         </label>
-                        
+
                         <input
                             v-if="fieldConfig.type === 'text'"
                             v-model="formData[fieldName]"
@@ -273,14 +294,14 @@ onMounted(() => {
                             :required="fieldConfig.required"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
-                        
+
                         <textarea
                             v-else-if="fieldConfig.type === 'textarea'"
                             v-model="formData[fieldName]"
                             rows="3"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         ></textarea>
-                        
+
                         <input
                             v-else-if="fieldConfig.type === 'number'"
                             v-model.number="formData[fieldName]"
@@ -289,7 +310,7 @@ onMounted(() => {
                             min="0"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
-                        
+
                         <label v-else-if="fieldConfig.type === 'boolean'" class="flex items-center">
                             <input
                                 v-model="formData[fieldName]"
@@ -299,20 +320,20 @@ onMounted(() => {
                             <span class="text-gray-700">{{ fieldConfig.label }}</span>
                         </label>
                     </div>
-                    
+
                     <div class="flex justify-end gap-2">
                         <button
                             type="button"
                             @click="closeModal"
                             class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
                         >
-                            Отмена
+                            {{ t('dictionaries.cancel') }}
                         </button>
                         <button
                             type="submit"
                             class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                         >
-                            Сохранить
+                            {{ t('dictionaries.save') }}
                         </button>
                     </div>
                 </form>

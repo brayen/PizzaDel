@@ -14,7 +14,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DictionaryController;
 
 // Language routes
-Route::get('/translations/{locale}', [LocaleController::class, 'translations']);
+Route::get('/translations/{locale}/{context?}', [LocaleController::class, 'translations']);
 Route::post('/locale', [LocaleController::class, 'switch']);
 
 // Products routes
