@@ -6,6 +6,7 @@ export const useLocaleStore = defineStore('locale', {
     state: () => ({
         currentLocale: 'en',
         translations: {},
+        context: 'public', // 'public' or 'staff'
         supportedLocales: [
             { code: 'en', name: 'English', flag: 'fi fi-gb' },
             { code: 'ua', name: 'Українська', flag: 'fi fi-ua' },
@@ -68,7 +69,7 @@ export const useLocaleStore = defineStore('locale', {
 
         async loadTranslations() {
             try {
-                const response = await fetch(`/translations/${this.currentLocale}`);
+                const response = await fetch(`/translations/${this.currentLocale}/${this.context}`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -79,6 +80,11 @@ export const useLocaleStore = defineStore('locale', {
                 console.error('Failed to load translations:', error);
                 this.translations = {}
             }
+        },
+
+        setContext(context) {
+            this.context = context;
+            this.loadTranslations();
         },
 
         initialize() {

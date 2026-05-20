@@ -66,7 +66,7 @@ class TranslationService
                         'id' => $product->id,
                         'sku' => $product->sku,
                         'slug' => $product->slug,
-                        'name' => $translations[$locale]['name'] ?? $translations['en']['name'] ?? 'Product',
+                        'name' => $translations[$locale]['name'] ?? $translations['en']['name'] ?? __('common.product'),
                         'description' => $translations[$locale]['description'] ?? $translations['en']['description'] ?? '',
                         'price' => '€' . number_format($product->base_price / 100, 2),
                         'meta_title' => $translations[$locale]['meta_title'] ?? $translations['en']['meta_title'] ?? '',

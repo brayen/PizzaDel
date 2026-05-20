@@ -22,6 +22,7 @@ return [
     'staff_portal' => 'Staff Portal',
     
     // Dashboard
+    'customer_dashboard' => 'Customer Dashboard',
     'welcome_back' => 'Welcome back',
     'manage_orders_preferences' => 'Manage your orders and preferences',
     'loyalty_status' => 'Your Loyalty Status',
@@ -31,11 +32,11 @@ return [
     'order_pizza' => 'Order Pizza',
     'browse_menu' => 'Browse our menu',
     'my_orders' => 'My Orders',
-    'view_history' => 'View order history',
+    'view_order_history' => 'View order history',
     'my_profile' => 'My Profile',
     'manage_account' => 'Manage your account',
     'recent_orders' => 'Recent Orders',
-    'no_orders' => 'No orders yet',
+    'no_orders_yet' => 'No orders yet',
     'place_first_order' => 'Place your first order',
     
     // Footer
@@ -56,7 +57,6 @@ return [
     'recipes' => 'Recipes',
     'stories' => 'Stories',
     'staff' => 'Staff',
-    'staff_login' => 'Staff Login',
     'work_schedule' => 'Work Schedule',
     'documents' => 'Documents',
     'copyright' => '© :year PizzaDel. All rights reserved.',
@@ -66,6 +66,12 @@ return [
     'email' => 'info@pizzadel.com',
     
     // Auth
+    'staff_login' => 'Staff Login',
+    'customer_login' => 'Customer Login',
+    'sign_in_to_staff_account' => 'Sign in to your staff account',
+    'sign_in_to_account' => 'Sign in to your account',
+    'create_new_account' => 'create a new account',
+    'sign_in_existing_account' => 'sign in to your existing account',
     'email_address' => 'Email address',
     'password' => 'Password',
     'confirm_password' => 'Confirm Password',
@@ -74,8 +80,12 @@ return [
     'sign_in' => 'Sign in',
     'create_account' => 'Create account',
     'full_name' => 'Full Name',
-    'phone_number' => 'Phone Number',
-    'delivery_address' => 'Delivery Address',
+    'name_placeholder' => 'John Doe',
+    'email_placeholder' => 'john@example.com',
+    'phone_optional' => 'Phone (Optional)',
+    'phone_placeholder' => '+1234567890',
+    'delivery_address_optional' => 'Delivery Address (Optional)',
+    'address_placeholder' => '123 Main St, City, Country',
     'already_have_account' => 'Already have an account?',
     'dont_have_account' => 'Don\'t have an account?',
     
