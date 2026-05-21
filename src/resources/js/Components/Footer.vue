@@ -138,11 +138,11 @@ const t = (key, params = {}) => localeStore.t(key, params);
             <div class="border-t border-gray-700 mt-8 pt-8">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="text-gray-400 text-sm mb-4 md:mb-0">
-                        <span>Италия, Рим, Via Pizza 123</span>
+                        <span>{{ t('footer.address') }}</span>
                         <span class="mx-2">•</span>
-                        <span>+39 06 123 4567</span>
+                        <span>{{ t('footer.phone') }}</span>
                         <span class="mx-2">•</span>
-                        <span>info@pizzadel.com</span>
+                        <span>{{ t('footer.email') }}</span>
                     </div>
 
                     <div class="flex space-x-6">

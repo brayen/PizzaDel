@@ -6,6 +6,7 @@ export const useLocaleStore = defineStore('locale', {
     state: () => ({
         currentLocale: 'en',
         translations: {},
+        context: 'public', // 'public' or 'staff'
         supportedLocales: [
             { code: 'en', name: 'English', flag: 'fi fi-gb' },
             { code: 'ua', name: 'Українська', flag: 'fi fi-ua' },
@@ -68,7 +69,7 @@ export const useLocaleStore = defineStore('locale', {
 
         async loadTranslations() {
             try {
-                const response = await fetch(`/translations/${this.currentLocale}`);
+                const response = await fetch(`/translations/${this.currentLocale}/${this.context}`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -81,7 +82,12 @@ export const useLocaleStore = defineStore('locale', {
             }
         },
 
-        initialize() {
+        async setContext(context) {
+            this.context = context;
+            await this.loadTranslations();
+        },
+
+        async initialize() {
             const page = usePage()
             const props = page.props
 
@@ -90,7 +96,7 @@ export const useLocaleStore = defineStore('locale', {
             this.currentLocale = savedLocale || props.locale || 'en'
 
             // Load translations for current locale
-            this.loadTranslations()
+            await this.loadTranslations()
 
             // Update HTML lang attribute
             document.documentElement.lang = this.currentLocale

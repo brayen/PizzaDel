@@ -17,7 +17,7 @@ class AdminMiddleware
         $user = Auth::guard('staff')->user();
         
         if (!$user || !in_array($user->position, ['admin', 'manager'])) {
-            abort(403, 'Unauthorized action.');
+            abort(403, __('common.unauthorized_action'));
         }
 
         return $next($request);

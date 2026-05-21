@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "watch": "vite build --watch"
+        "watch": "vite build --watch",
+        "restart-dev": "pkill -f node && npm run dev"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^2.0.0",

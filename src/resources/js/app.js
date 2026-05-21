@@ -9,7 +9,7 @@ createInertiaApp({
     title: (title) => `${title} - PizzaDel`,
     resolve: (name) => {
         const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
-        return pages[`./Pages/${name}.vue`];
+        return pages[`./Pages/${name}.vue`] || pages[`./Pages/Public/${name}.vue`] || pages[`./Pages/Staff/${name}.vue`];
     },
     setup({ el, App, props, plugin }) {
         const pinia = createPinia();
