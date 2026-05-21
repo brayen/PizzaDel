@@ -82,12 +82,12 @@ export const useLocaleStore = defineStore('locale', {
             }
         },
 
-        setContext(context) {
+        async setContext(context) {
             this.context = context;
-            this.loadTranslations();
+            await this.loadTranslations();
         },
 
-        initialize() {
+        async initialize() {
             const page = usePage()
             const props = page.props
 
@@ -96,7 +96,7 @@ export const useLocaleStore = defineStore('locale', {
             this.currentLocale = savedLocale || props.locale || 'en'
 
             // Load translations for current locale
-            this.loadTranslations()
+            await this.loadTranslations()
 
             // Update HTML lang attribute
             document.documentElement.lang = this.currentLocale

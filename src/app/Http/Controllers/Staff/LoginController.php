@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class StaffLoginController extends Controller
+class LoginController extends Controller
 {
     // Show staff login form
     public function show(): Response
     {
-        return Inertia::render('Auth/StaffLogin');
+        return Inertia::render('Staff/Auth/Login');
     }
 
     // Handle staff login request

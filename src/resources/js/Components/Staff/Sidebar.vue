@@ -38,7 +38,17 @@ const menuItems = computed(() => [
                 name: t('dictionaries.ingredients'),
                 url: '/staff/dictionaries/ingredients',
             },
+            {
+                name: t('dictionaries.pizzas'),
+                url: '/staff/dictionaries/pizzas',
+            },
         ],
+    },
+    {
+        name: t('sidebar.storage'),
+        icon: '🏭',
+        route: 'staff.storage',
+        url: '/staff/storage',
     },
     {
         name: t('sidebar.orders'),

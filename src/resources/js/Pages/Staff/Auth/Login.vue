@@ -19,8 +19,9 @@ const submit = () => {
 
 const isDisabled = computed(() => form.processing);
 
-onMounted(() => {
-    localeStore.setContext('staff');
+onMounted(async () => {
+    await localeStore.initialize();
+    await localeStore.setContext('staff');
 });
 </script>
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -24,19 +25,8 @@ class LocaleController extends Controller
         // Validate context (public or staff)
         $context = in_array($context, ['public', 'staff']) ? $context : 'public';
 
-        // Load all translation files for the locale and context
-        $translations = [
-            'common' => $this->loadTranslations($locale, 'common', $context),
-            'auth' => $this->loadTranslations($locale, 'auth', $context),
-            'navigation' => $this->loadTranslations($locale, 'navigation', $context),
-            'dashboard' => $this->loadTranslations($locale, 'dashboard', $context),
-            'footer' => $this->loadTranslations($locale, 'footer', $context),
-            'validation' => $this->loadTranslations($locale, 'validation', $context),
-            'dictionaries' => $this->loadTranslations($locale, 'dictionaries', $context),
-            'sidebar' => $this->loadTranslations($locale, 'sidebar', $context),
-            'menu' => $this->loadTranslations($locale, 'menu', $context),
-            'cart' => $this->loadTranslations($locale, 'cart', $context),
-        ];
+        // Auto-load all translation files for the locale and context
+        $translations = $this->loadAllTranslations($locale, $context);
 
         return response()->json($translations);
     }
@@ -48,6 +38,22 @@ class LocaleController extends Controller
     {
         $locale = $request->input('locale');
         
+        $supported = config('languages.supported', ['en']);
+        $supportedKeys = array_keys($supported);
+
+        if (in_array($locale, $supportedKeys)) {
+            Session::put('locale', $locale);
+            app()->setLocale($locale);
+        }
+
+        return back();
+    }
+
+    /**
+     * Switch locale via GET request
+     */
+    public function switchGet($locale)
+    {
         $supported = config('languages.supported', ['en']);
         $supportedKeys = array_keys($supported);
 
@@ -76,5 +82,36 @@ class LocaleController extends Controller
         }
 
         return require $path;
+    }
+
+    /**
+     * Load all translation files for a locale and context
+     */
+    private function loadAllTranslations($locale, $context = 'public')
+    {
+        $translations = [];
+        $path = lang_path("{$context}/{$locale}");
+
+        if (!is_dir($path)) {
+            // Fallback to old structure
+            $oldPath = lang_path($locale);
+            if (is_dir($oldPath)) {
+                $files = glob("{$oldPath}/*.php");
+                foreach ($files as $file) {
+                    $filename = basename($file, '.php');
+                    $translations[$filename] = require $file;
+                }
+            }
+            return $translations;
+        }
+
+        // Load all PHP files from the context directory
+        $files = glob("{$path}/*.php");
+        foreach ($files as $file) {
+            $filename = basename($file, '.php');
+            $translations[$filename] = require $file;
+        }
+
+        return $translations;
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Public;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class ProductController extends Controller
 
         $products = TranslationService::getCachedProducts($locale, $limit);
 
-        return Inertia::render('Products/Index', [
+        return Inertia::render('Public/Products/Index', [
             'products' => $products,
             'locale' => $locale,
         ]);
@@ -36,7 +37,7 @@ class ProductController extends Controller
             ->where('is_active', true)
             ->firstOrFail();
 
-        return Inertia::render('Products/Show', [
+        return Inertia::render('Public/Products/Show', [
             'product' => [
                 'id' => $product->id,
                 'sku' => $product->sku,

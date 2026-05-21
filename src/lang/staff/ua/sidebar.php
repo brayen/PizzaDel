@@ -5,4 +5,5 @@ return [
     'pizzas' => 'Піцци',
     'customers' => 'Клієнти',
     'staff' => 'Персонал',
+    'storage' => 'Склад',
 ];
